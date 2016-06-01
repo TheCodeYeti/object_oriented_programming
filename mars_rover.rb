@@ -37,8 +37,8 @@ class Rover
   end
   def read_instruction(instruction)
     case instruction.upcase
-      when "L", "R" then turn(instruction.upcase)
-      when "M" then move(instruction.upcase)
+      when "L", "R" then turn(instruction)
+      when "M" then move
     end
   end
   def move
@@ -50,7 +50,7 @@ class Rover
     end
   end
   def turn
-
+    # maybe use an array as a compass
   end
 end
 
@@ -79,6 +79,20 @@ class MissionControl
     end
   end
 
+  def get_rover(rover_name)
+    @rovers.each do |rover|
+      if rover.name = rover_name then
+        puts "Rover #{rover.name} found! Connect to #{rover.name}? (Y/N)"
+        connect = gets.chomp.upcase
+        connect_to(rover) if connect = "Y"
+      end
+    end
+  end
+
+  def connect_to(rover)
+    puts "#{rover.name} ready for instructions: "
+  end
+
   def send_instructions(rover, instructions)
   end
 
@@ -89,6 +103,11 @@ puts "Mission Control, Please input Martian plateau size in x,y integer format: 
 user_input = gets.chomp
 houston = MissionControl.new(clean_input(user_input))
 houston.list_rovers
+
+puts "Type in a rover to send instruction to: "
+user_input = gets.chomp
+
+
 #
 # user_input = gets.chomp
 # mars = Plateau.new(clean_input(user_input)) # create martian plateau
