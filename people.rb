@@ -25,3 +25,6 @@ puts chris.greeting
 
 christina = Student.new("Christina")
 puts christina.greeting
+
+puts chris.teach
+puts christina.learn
