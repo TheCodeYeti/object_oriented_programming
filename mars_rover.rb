@@ -44,11 +44,15 @@ class Rover
   end
 end
 
-puts "Please input plateau size in x,y integer format:"
+class MissionControl
+  def initialize()
+  end
+end
+
+puts "Please input Martian plateau size in x,y integer format: "
 user_input = gets.chomp
-cleaned_input = clean_input(user_input)
+mars = Plateau.new(clean_input(user_input)) # create martian plateau
 
-# plateau_size.map! {|coordinate|  coordinate.tr(", ","")}
-mars = Plateau.new(cleaned_input)
-
-pathfinder = Rover.new(cleaned_input)
+puts "How many Rovers are on Mars? "
+user_input = gets.chomp
+pathfinder = Rover.new(clean_input(user_input))
