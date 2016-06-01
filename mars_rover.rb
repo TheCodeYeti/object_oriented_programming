@@ -52,29 +52,30 @@ class Rover
   def turn(instruction)
     case @direction
     when "N"
-      if instruction = "L"
+      if instruction == "L"
         @direction = "W"
       else
         @direction = "E"
       end
     when "S"
-      if instruction = "L"
+      if instruction == "L"
         @direction = "E"
       else
         @direction = "W"
       end
     when "E"
-      if instruction = "L"
+      if instruction == "L"
         @direction = "N"
       else
         @direction = "S"
       end
     when "W"
-      if instruction = "L"
+      if instruction == "L"
         @direction = "S"
       else
         @direction = "N"
       end
+    end
   end
 end
 
@@ -124,14 +125,33 @@ class MissionControl
     until instructions == "Q" do
       instructions = gets.chomp.upcase
       instructions.each_char do |instruction|
-        rover.read_instruction(instruction)
+        if instruction == "M"
+          rover.read_instruction(instruction) if path_clear?(rover)
+        end
         puts "#{rover.name} now at X:#{rover.x} Y:#{rover.y} facing:#{rover.direction}"
       end
     end
 
   end
 
-  def send_instructions(rover, instructions)
+  def path_clear?(moving_rover)
+    x = moving_rover.x
+    y = moving_rover.y
+    case moving_rover.direction
+      when "N" then y += 1
+      when "S" then y -= 1
+      when "E" then x -= 1
+      when "W" then x += 1
+    end
+    projected_location = [x, y]
+    if x > @mars.x || y > @mars.y then
+      return false
+    else
+      @rovers.each do |rover|
+        return false if rover.x = x && rover.y = y
+      end
+      return true
+    end
   end
 
 end
