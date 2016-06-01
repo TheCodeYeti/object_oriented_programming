@@ -10,11 +10,16 @@ def clean_input(user_input)
   cleaned_input
 end
 
-
+class Plateau
+  def initialize(coordinates) #is expecting array
+    @x = coordinates[0]
+    @y = coordinates[1]
+  end
+end
 
 puts "Please input plateau size in x,y integer format:"
 user_input = gets.chomp
 cleaned_input = clean_input(user_input)
 
 # plateau_size.map! {|coordinate|  coordinate.tr(", ","")}
-puts plateau_size
+mars = Plateau.new(cleaned_input)
