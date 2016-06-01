@@ -11,9 +11,17 @@ def clean_input(user_input)
 end
 
 class Plateau
-  def initialize(coordinates) #is expecting array
+  def initialize(coordinates) # expecting array of x,y
     @x = coordinates[0]
     @y = coordinates[1]
+  end
+end
+
+class Rover
+  def initialize(coordinates) # expecting array of x,y,direction
+    @x = coordinates[0]
+    @y = coordinates[1]
+    @direction = coordinates[2]
   end
 end
 
