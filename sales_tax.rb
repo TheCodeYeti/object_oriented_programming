@@ -2,12 +2,13 @@
 # additional 5% import duty on anything imported
 
 class CartItem
-  attr_accessor :count, :name, :price
+  attr_reader :count, :name, :price
   def initialize(user_input)
     parsed_input = parse_input(user_input)
     @count = parsed_input[:count]
     @name = parsed_input[:name]
     @price = parsed_input[:price]
+    @items = []
   end
   def parse_input(user_input)
     # split the first item off the string - should be a number
@@ -24,16 +25,21 @@ end
 
 class ShoppingCart
   def initialize
-    response = nil
-    until response == "N" do
+    response = "Y"
+    while response == "Y" do
       puts "Would you like to add an item? (Y/N) "
       response = gets.chomp.upcase
+      add_item if response = "Y"
     end
 
   end
 
   def add_item
-
+    puts "Please input the first item with the following format where # is a number:"
+    puts "# item_name at ##.##"
+    puts ""
+    user_input = gets.chomp
+    @items = CartItem.new(user_input)
   end
 end
 
