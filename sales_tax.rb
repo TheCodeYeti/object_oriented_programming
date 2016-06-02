@@ -24,6 +24,11 @@ end
 
 class ShoppingCart
   def initialize
+    response = nil
+    until response == "N" do
+      puts "Would you like to add an item? (Y/N) "
+      response = gets.chomp.upcase
+    end
 
   end
 
@@ -35,8 +40,10 @@ end
 puts "Welcome to Wawa's shop! We have everything you're looking for, coffee, chocolate, more coffee...EVERYTHING! "
 puts "Would you like to shop at my store? (Y/N) "
 response = gets.chomp.upcase
-while response = "Y" do
+while response == "Y" do
   my_cart = ShoppingCart.new
+  puts "Would you like to keep shopping? (Y/N) "
+  response = gets.chomp.upcase
 end
 puts "That's ok, more coffee for me!"
 
