@@ -2,31 +2,33 @@
 # additional 5% import duty on anything imported
 
 class CartItem
-  attr_reader :count, :name, :price :sales_tax_exempt
+  attr_reader :count, :name, :price, :sales_tax_exempt, :imported
   def initialize(user_input)
     parsed_input = parse_input(user_input)
-    @count = parsed_input[:count]
-    @name = parsed_input[:name]
-    @price = parsed_input[:price]
+    @count = parsed_input[:item_count]
+    @name = parsed_input[:item_name]
+    @price = parsed_input[:item_price]
+    sales_tax_exempt?
+    imported?
   end
   def parse_input(user_input)
     # split the first item off the string - should be a number
-    temp_var = user_input.split(" ", 2)
+    # temp_var = []
+    temp_var = user_input.split(' ', 2)
     result = Hash.new
-    result[:count] = temp_var[0]
+    result[:item_count] = temp_var[0].to_i
     #split the remaining string based on the " at "
     temp_var = temp_var[1].split(" at ")
-    result[:name] = temp_var[0]
-    result[:price] = temp_var[1].to_f
-    sales_tax_exempt?
-    imported?
+    result[:item_name] = temp_var[0]
+    result[:item_price] = temp_var[1].to_f
     result
+
   end
   def sales_tax_exempt?
-    @sales_tax_exempt = true
+    @sales_tax_exempt = false
     exempt_items = ["books", "food", "medical", "chocolate", "coffee", "pills"]
     exempt_items.each do |exempt_item|
-      @sales_tax_exempt = false if @name.include? exempt_item
+      @sales_tax_exempt = true if @name.include? exempt_item
     end
   end
   def imported?
@@ -67,11 +69,12 @@ class ShoppingCart
     puts "Sales Taxes: #{'%.02f' % sales_tax}"
     import_tax = calculate_import_tax
     puts "Import Taxes: #{'%.02f' % import_tax}"
-
+    total = calculate_total(sales_tax, import_tax)
+    puts "Total: #{'%.02f' % total}"
   end
 
   def calculate_total(sales_tax, import_tax)
-    total = 0.float
+    total = 0.to_f
     @items.each do |item|
       total += item.price
     end
@@ -80,17 +83,19 @@ class ShoppingCart
   end
 
   def calculate_sales_tax
-    total_sales_tax = 0.float
+    total_sales_tax = 0.to_f
     @items.each do |item|
       total_sales_tax += item.price * 0.10 unless item.sales_tax_exempt
     end
+    total_sales_tax
   end
 
   def calculate_import_tax
-    total_import_tax = 0.float
+    total_import_tax = 0.to_f
     @items.each do |item|
       total_import_tax += item.price * 0.05 if item.imported
     end
+    total_import_tax
   end
 end
 
