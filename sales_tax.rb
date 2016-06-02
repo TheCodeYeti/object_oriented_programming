@@ -6,7 +6,6 @@ def parse_input(user_input)
   temp_var = user_input.split(" ", 2)
   result = {}
   result[:item_count] = temp_var[0]
-  return result
   #split the remaining string based on the " at "
   temp_var = temp_var[1].split(" at ")
   result[:item_name] = temp_var[0]
