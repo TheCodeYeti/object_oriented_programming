@@ -70,6 +70,15 @@ class ShoppingCart
 
   end
 
+  def calculate_total(sales_tax, import_tax)
+    total = 0.float
+    @items.each do |item|
+      total += item.price
+    end
+    total += sales_tax
+    total += import_tax
+  end
+
   def calculate_sales_tax
     total_sales_tax = 0.float
     @items.each do |item|
