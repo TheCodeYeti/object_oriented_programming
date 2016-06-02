@@ -2,7 +2,7 @@
 # additional 5% import duty on anything imported
 
 class CartItem
-  attr_reader :count, :name, :price
+  attr_reader :count, :name, :price :sales_tax_exempt
   def initialize(user_input)
     parsed_input = parse_input(user_input)
     @count = parsed_input[:count]
@@ -18,7 +18,15 @@ class CartItem
     temp_var = temp_var[1].split(" at ")
     result[:name] = temp_var[0]
     result[:price] = temp_var[1].to_f
+    sales_tax_exempt?
     result
+  end
+  def sales_tax_exempt?
+    @sales_tax_exempt = true
+    exempt_items = ["books", "food", "medical", "chocolate", "coffee", "pills"]
+    exempt_items.each do |exempt_item|
+      @sales_tax_exempt = false if @name.include? exempt_item
+    end
   end
 end
 
