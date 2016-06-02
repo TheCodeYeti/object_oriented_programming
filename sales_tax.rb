@@ -8,7 +8,6 @@ class CartItem
     @count = parsed_input[:count]
     @name = parsed_input[:name]
     @price = parsed_input[:price]
-    @items = []
   end
   def parse_input(user_input)
     # split the first item off the string - should be a number
@@ -25,11 +24,12 @@ end
 
 class ShoppingCart
   def initialize
+    @items = []
     response = "Y"
     while response == "Y" do
       puts "Would you like to add an item? (Y/N) "
       response = gets.chomp.upcase
-      add_item if response = "Y"
+      add_item if response == "Y"
     end
 
   end
@@ -39,7 +39,17 @@ class ShoppingCart
     puts "# item_name at ##.##"
     puts ""
     user_input = gets.chomp
-    @items = CartItem.new(user_input)
+    item = CartItem.new(user_input)
+    @items << item
+    list_items
+  end
+
+  def list_items
+    puts ""
+    puts "Your cart:"
+    @items.each do |item|
+      puts "#{item.count} #{item.name} at #{'%.02f' % item.price}"
+    end
   end
 end
 
@@ -52,10 +62,3 @@ while response == "Y" do
   response = gets.chomp.upcase
 end
 puts "That's ok, more coffee for me!"
-
-# puts "Please input the items for your first transaction:"
-# puts "Please input the first item with the following format where # is a number:"
-# puts "# item_name at ##.##"
-# puts ""
-# user_input = gets.chomp
-# first_item = CartItem.new(user_input)
