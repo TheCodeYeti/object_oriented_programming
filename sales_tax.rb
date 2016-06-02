@@ -3,7 +3,7 @@
 
 def parse_input(user_input)
   # split the first item off the string - should be a number
-  temp_var = user_input.split(" ", 1)
+  temp_var = user_input.split(" ", 2)
   result = {}
   result[:item_count] = temp_var[0]
   return result
@@ -19,4 +19,4 @@ puts "Please input the first item with the following format where # is a number:
 puts "# item_name at ##.##"
 puts
 user_input = gets.chomp
-# puts parse_input(user_input)
+puts parse_input(user_input)
