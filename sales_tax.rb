@@ -18,4 +18,6 @@ puts "Please input the first item with the following format where # is a number:
 puts "# item_name at ##.##"
 puts
 user_input = gets.chomp
-puts parse_input(user_input)
+shopping_cart = {}
+shopping_cart[:items] << parse_input(user_input)
+puts shopping_cart
