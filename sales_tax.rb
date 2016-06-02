@@ -19,6 +19,7 @@ class CartItem
     result[:name] = temp_var[0]
     result[:price] = temp_var[1].to_f
     sales_tax_exempt?
+    imported?
     result
   end
   def sales_tax_exempt?
@@ -27,6 +28,10 @@ class CartItem
     exempt_items.each do |exempt_item|
       @sales_tax_exempt = false if @name.include? exempt_item
     end
+  end
+  def imported?
+    imported = false
+    imported = true if @name.include? "imported"
   end
 end
 
