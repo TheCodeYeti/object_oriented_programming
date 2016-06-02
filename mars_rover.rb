@@ -22,8 +22,8 @@ end
 class Plateau
   attr_accessor(:x, :y)
   def initialize(coordinates) # expecting array of x,y
-    @x = coordinates[0]
-    @y = coordinates[1]
+    @x = coordinates[0].to_i
+    @y = coordinates[1].to_i
   end
 end
 
@@ -31,8 +31,8 @@ class Rover
   attr_reader(:x, :y, :direction, :name)
   def initialize(coordinates, name) # expecting array of x,y,direction
     @name = name
-    @x = coordinates[0]
-    @y = coordinates[1]
+    @x = coordinates[0].to_i
+    @y = coordinates[1].to_i
     @direction = coordinates[2]
   end
   def read_instruction(instruction)
@@ -95,10 +95,13 @@ class MissionControl
       rover = Rover.new(clean_input(rover_coordinates), rover_name)
       @rovers << rover
     end
-    list_rovers
-    puts "Type in a rover to send instruction to: "
-    user_input = gets.chomp
-    get_rover(user_input)
+    user_input = nil
+    until user_input = "Q"
+      list_rovers
+      puts "Type in a rover to send instruction to or type Q to quit: "
+      user_input = gets.chomp.upcase
+      get_rover(user_input)
+    end
   end
 
   def list_rovers
@@ -110,7 +113,7 @@ class MissionControl
 
   def get_rover(rover_name)
     @rovers.each do |rover|
-      if rover.name == rover_name then
+      if rover.name.upcase == rover_name then
         puts "Rover #{rover.name} found! Connect to #{rover.name}? (Y/N)"
         connect = gets.chomp.upcase
         connect_to(rover) if connect == "Y"
@@ -126,7 +129,11 @@ class MissionControl
       instructions = gets.chomp.upcase
       instructions.each_char do |instruction|
         if instruction == "M"
-          rover.read_instruction(instruction) if path_clear?(rover)
+          if path_clear?(rover)
+            rover.read_instruction(instruction)
+          else
+            puts "Wawa says that's probably not a good idea. You might hit something or fall off of Mars."
+          end
         end
         puts "#{rover.name} now at X:#{rover.x} Y:#{rover.y} facing:#{rover.direction}"
       end
