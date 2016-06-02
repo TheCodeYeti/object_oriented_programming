@@ -30,8 +30,8 @@ class CartItem
     end
   end
   def imported?
-    imported = false
-    imported = true if @name.include? "imported"
+    @imported = false
+    @imported = true if @name.include? "imported"
   end
 end
 
@@ -61,7 +61,26 @@ class ShoppingCart
     puts ""
     puts "Your cart:"
     @items.each do |item|
-      puts "#{item.count} #{item.name} at #{'%.02f' % item.price}"
+      puts "#{item.count} #{item.name}: #{'%.02f' % item.price}"
+    end
+    sales_tax = calculate_sales_tax
+    puts "Sales Taxes: #{'%.02f' % sales_tax}"
+    import_tax = calculate_import_tax
+    puts "Import Taxes: #{'%.02f' % import_tax}"
+
+  end
+
+  def calculate_sales_tax
+    total_sales_tax = 0.float
+    @items.each do |item|
+      total_sales_tax += item.price * 0.10 unless item.sales_tax_exempt
+    end
+  end
+
+  def calculate_import_tax
+    total_import_tax = 0.float
+    @items.each do |item|
+      total_import_tax += item.price * 0.05 if item.imported
     end
   end
 end
