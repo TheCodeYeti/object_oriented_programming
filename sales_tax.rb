@@ -76,7 +76,7 @@ class ShoppingCart
   def calculate_total(sales_tax, import_tax)
     total = 0.to_f
     @items.each do |item|
-      total += item.price
+      total += item.price * item.count
     end
     total += sales_tax
     total += import_tax
@@ -85,7 +85,7 @@ class ShoppingCart
   def calculate_sales_tax
     total_sales_tax = 0.to_f
     @items.each do |item|
-      total_sales_tax += item.price * 0.10 unless item.sales_tax_exempt
+      total_sales_tax += item.price * item.count * 0.10 unless item.sales_tax_exempt
     end
     total_sales_tax
   end
@@ -93,7 +93,7 @@ class ShoppingCart
   def calculate_import_tax
     total_import_tax = 0.to_f
     @items.each do |item|
-      total_import_tax += item.price * 0.05 if item.imported
+      total_import_tax += item.price * item.count * 0.05 if item.imported
     end
     total_import_tax
   end
